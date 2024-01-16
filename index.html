@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obter Localização</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #get-location-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #get-location-btn:hover {
+            background-color: #45a049;
+        }
+
+        #result-container {
+            text-align: left;
+        }
+
+        .location-result {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Obter Localização</h1>
+
+<button id="get-location-btn" onclick="obterLocalizacao()">Obter Localização</button>
+
+<div id="result-container"></div>
+
+<script>
+    var locationHistory = [];
+
+    function obterLocalizacao() {
+        var resultContainer = document.getElementById("result-container");
+
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                // Adiciona a localização ao histórico
+                locationHistory.push({ latitude: latitude, longitude: longitude });
+
+                // Cria um elemento para exibir a localização
+                var resultDiv = document.createElement("div");
+                resultDiv.classList.add("location-result");
+                resultDiv.innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
+
+                // Adiciona o elemento ao container
+                resultContainer.appendChild(resultDiv);
+
+                // Exibe o container
+                resultContainer.style.display = "block";
+
+                // Exibe o resultado
+                resultDiv.style.display = "block";
+            }, function (error) {
+                alert("Erro ao obter localização: " + error.message);
+            });
+        } else {
+            alert("Geolocalização não está disponível no seu navegador ou dispositivo.");
+        }
+    }
+</script>
+
+</body>
+</html>
